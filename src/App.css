@@ -1,0 +1,43 @@
+.App {
+  text-align: left;
+}
+
+.App-logo {
+  height: 80px;
+}
+
+.App-logo-gogo {
+  animation: App-logo-spin infinite 0.5s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 80px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.App-verse {
+  text-align: center;
+  margin-left: 20%;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
