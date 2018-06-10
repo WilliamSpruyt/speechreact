@@ -12,16 +12,18 @@
 }
 
 .App-header {
-  background-color: #222;
+  background-color: lightskyblue;
   height: 80px;
   padding: 20px;
   color: white;
+  text-align: center;
 }
 
 .App-title {
   font-size: 1.5em;
   justify-content: flex-start;
   text-align: left;
+  margin-left: 10vw
 }
 
 .App-verse {

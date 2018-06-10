@@ -1,17 +1,33 @@
 {
   "name": "speechreact",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
-    "react-scripts": "1.1.4",
-    "speech-to-text": "^0.7.4"
-  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client:start": "cd client && npm start",
+    "dev": "concurrently --kill-others \"npm start \" \"npm run client:start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WilliamSpruyt/speechreact.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WilliamSpruyt/speechreact/issues"
+  },
+  "homepage": "https://github.com/WilliamSpruyt/speechreact#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "mongoose": "^5.1.4",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
   }
 }
