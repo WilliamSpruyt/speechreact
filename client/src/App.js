@@ -73,13 +73,13 @@ class App extends Component {
         if (!res.success) this.setState({ error: res.error });
         else
           this.setState({ list: res.data }, () => {
-            console.log(this.state.list);
+           this.state.list.forEach((ele)=>{console.log(ele.date,ele.mono)})
           });
-        console.log("Howdy");
+         
       });
   };
   submitStat = () => {
-    const { message } = this.state;
+    const  mono  = this.state.message.slice(0);
 
     var options = {
       weekday: "long",
@@ -90,13 +90,13 @@ class App extends Component {
       minute: "2-digit"
     };
     var date = new Date(Date.now()).toLocaleString("en", options);
-    console.log(date);
+    console.log(date,mono);
     fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message,
-        date
+        date,
+        mono
       })
     })
       .then(res => res.json())
