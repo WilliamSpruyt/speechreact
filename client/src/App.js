@@ -11,7 +11,8 @@ class App extends Component {
     this.state = {
       message: [],
       spinning: false,
-      list: []
+      list: [],
+      date:[],
     };
     this.loadStatsFromServer = this.loadStatsFromServer.bind(this);
     let temptext = " ";
@@ -128,7 +129,8 @@ class App extends Component {
           />
           <button
             onClick={() => {
-              var tempd = this.state.message.concat(new Date().toString());
+              this.setState({date:new Date().toString()})
+              var tempd = [" "];
               if (!this.state.spinning) {
                 this.loadStatsFromServer();
                 this.setState({ message: tempd }, () => {
@@ -151,7 +153,7 @@ class App extends Component {
           </button>
         </header>
 
-        <div className="App-title">
+        <div className="App-title">{this.state.date}
           {this.state.message.map((ele, i) => {
             return <div key={i}>{ele}</div>;
           })}
