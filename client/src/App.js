@@ -8,7 +8,7 @@ import "whatwg-fetch";
 var FontAwesome = require("react-fontawesome");
 
 const API_PORT = process.env.PORT | 3001;
-const url = "http://localhost:3001/message";
+const url = "/message";
 
 // Get a reference to the database service
 
