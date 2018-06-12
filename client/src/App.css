@@ -11,9 +11,14 @@
   height: 80px;
 }
 
+.App-logo-gogo-r {
+  animation: App-logo-spin infinite 0.7s linear;
+  height: 80px;
+}
+
 .App-header {
   background-color: lightskyblue;
-  height: 80px;
+  height: 100px;
   padding: 20px;
   color: white;
   text-align: center;
@@ -23,7 +28,16 @@
   font-size: 1.5em;
   justify-content: flex-start;
   text-align: left;
-  margin-left: 10vw
+  margin-left: 10vw;
+}
+
+.App-palimp {
+  color: darkslategray;
+  font-size: 1em;
+  justify-content: flex-start;
+  text-align: left;
+  margin-left: 10vw;
+  font-family: "Courier New", Courier;
 }
 
 .App-verse {
@@ -42,4 +56,61 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.rant {
+  font-weight: bold;
+}
+
+.day {
+  text-transform: uppercase;
+}
+
+.rant:hover {
+  background-color: yellow;
+  font-size: 1.5em;
+}
+
+button {
+  border-radius: 25%;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.buttonplay {
+  background-color: silver;
+  color: green;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 25%;
+}
+
+.buttonstop {
+  background-color: silver;
+  color: red;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 25%;
+}
+
+#machine {
+  background: tan;
+  width: fit-content;
+  border-width: 10px;
+  border-color: brown;
+  border-radius: 20%;
+  border-style: solid;
+  display: inline-block;
+}
+
+.mic {
+  border-style: solid;
+  border-width: 2px;
+  border-color: silver;
 }

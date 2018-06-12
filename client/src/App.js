@@ -3,45 +3,62 @@ import logo from "./logo.svg";
 import "./App.css";
 import SpeechToText from "speech-to-text";
 import "whatwg-fetch";
+var FontAwesome = require("react-fontawesome");
+
 const API_PORT = process.env.PORT | 3001;
 const url = "http://localhost:3001/message";
+var config = {
+  apiKey: "AIzaSyBffxTD6iT_yiIFYVo62YMbvaRNTP-_F_M",
+  authDomain: "krapp-s-last-app.firebaseapp.com",
+  databaseURL: "https://krapp-s-last-app.firebaseio.com",
+  storageBucket: "krapp-s-last-app.appspot.com"
+};
+firebase.initializeApp(config);
+
+// Get a reference to the database service
+var database = firebase.database();
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: [],
+      message: [" "],
       spinning: false,
       list: [],
-      date:[],
+      date: [],
+      numLines: 0,
+      capsTime: false
     };
     this.loadStatsFromServer = this.loadStatsFromServer.bind(this);
-    let temptext = " ";
+
     const onAnythingSaid = text => console.log(`Interim text: ${text}`);
     const onFinalised = text => {
       if (this.state.spinning) {
         console.log(`Final text: ${text}`);
+        var reply = this.state.capsTime ? jsUcfirst(text) : text;
+        console.log(reply);
         if (weave(this.state.message[this.state.message.length - 1])) {
           var tempb = this.state.message
             .slice(0, this.state.message.length - 1)
             .concat(
               iambetize(
-                this.state.message[this.state.message.length - 1] + text
+                this.state.message[this.state.message.length - 1] + reply
               )
             );
         } else {
-          var tempb = this.state.message.concat(iambetize(text));
+          var tempb = this.state.message.concat(iambetize(reply));
         }
-        this.setState({ message: tempb }, () => {
-          console.log("done!" + this.state.message);
-        });
+        this.setState({ message: tempb }, () => {});
       }
     };
     const onFinishedListening = text => {
-      var dottedMess = punctuate(this.state.message);
+      var dottedArr = punctuate(this.state.message);
+      var dottedMess = dottedArr[0];
+      var mark = dottedArr[1];
       this.setState({
-        message: dottedMess
+        message: dottedMess,
+        capsTime: mark === "!" || mark === "." || mark === "?" || mark === ".."
       });
-      console.log("Not Listening!");
+      console.log("stopped listening" + this.state.capsTime + mark);
 
       try {
         const listener = new SpeechToText(
@@ -65,22 +82,26 @@ class App extends Component {
       console.log(error);
     }
   }
+  componentDidMount() {
+    this.loadStatsFromServer();
+  }
   loadStatsFromServer = () => {
     // fetch returns a promise. If you are not familiar with promises, see
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-    fetch(url)
+    fetch(config.databaseURL)
       .then(data => data.json())
       .then(res => {
         if (!res.success) this.setState({ error: res.error });
         else
           this.setState({ list: res.data }, () => {
-           this.state.list.forEach((ele)=>{console.log(ele.date,ele.mono)})
+            this.state.list.forEach(ele => {});
           });
-         
       });
   };
-  submitStat = () => {
-    const  mono  = this.state.message.slice(0);
+  submitStat = numLines => {
+    const mono = this.state.message.slice(
+      this.state.message.length - numLines - 1
+    );
 
     var options = {
       weekday: "long",
@@ -91,69 +112,91 @@ class App extends Component {
       minute: "2-digit"
     };
     var date = new Date(Date.now()).toLocaleString("en", options);
-    console.log(date,mono);
-    fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date,
-        mono
+
+    if (mono.length > 1) {
+      fetch(config.databaseURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date,
+          mono
+        })
       })
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (!res.success)
-          this.setState({ error: res.error.message || res.error });
-        else {
-          // this.props.getStats();
-        }
-      });
+        .then(res => res.json())
+        .then(res => {
+          if (!res.success)
+            this.setState({ error: res.error.message || res.error });
+          else {
+            // this.props.getStats();
+          }
+        });
+    }
   };
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img
-            src={logo}
-            className={
-              this.state.spinning ? "App-logo App-logo-gogo" : "App-logo"
-            }
-            alt="logo"
-          />
-          <img
-            src={logo}
-            className={
-              this.state.spinning ? "App-logo App-logo-gogo" : "App-logo"
-            }
-            alt="logo"
-          />
-          <button
-            onClick={() => {
-              this.setState({date:new Date().toString()})
-              var tempd = [" "];
-              if (!this.state.spinning) {
-                this.loadStatsFromServer();
-                this.setState({ message: tempd }, () => {
-                  console.log(
-                    "added date" +
-                      new Date().toLocaleDateString +
-                      " and " +
-                      this.state.message +
-                      "Which should equal " +
-                      tempd
-                  );
-                });
-              } else {
-                this.submitStat();
+          <div id="machine">
+            <img
+              src={logo}
+              className={
+                this.state.spinning ? "App-logo App-logo-gogo" : "App-logo"
               }
-              this.setState({ spinning: !this.state.spinning });
-            }}
-          >
-            {this.state.spinning ? "STOP" : "START"}
-          </button>
+              alt="logo"
+            />
+            <button
+              onClick={() => {
+                this.setState({ date: new Date().toString() });
+                var tempd = this.state.message.slice(0);
+                if (!this.state.spinning) {
+                  this.setState({ message: tempd, numLines: tempd.length });
+                } else {
+                  this.submitStat(tempd.length - this.state.numLines);
+                }
+                this.setState({ spinning: !this.state.spinning });
+              }}
+            >
+              {this.state.spinning ? (
+                <div className="buttonstop">
+                  <FontAwesome name="microphone" className="mic" />
+                  <FontAwesome name="play" />
+                </div>
+              ) : (
+                <div className="buttonplay">
+                  <FontAwesome name="microphone" className="mic" />
+                  <FontAwesome name="play" />
+                </div>
+              )}
+            </button>{" "}
+            <img
+              src={logo}
+              className={
+                this.state.spinning ? "App-logo App-logo-gogo" : "App-logo"
+              }
+              alt="logo"
+            />
+          </div>
         </header>
+        <div className="App-palimp">
+          {this.state.date}
+          {this.state.list.map((ele, i) => {
+            return (
+              <div key={i}>
+                <div className="day"> {ele.date}</div>
 
-        <div className="App-title">{this.state.date}
+                {ele.mono.map((lis, i) => {
+                  return (
+                    <div key={i} className="rant">
+                      {lis}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+        <div className="App-title">
+          {this.state.date}
           {this.state.message.map((ele, i) => {
             return <div key={i}>{ele}</div>;
           })}
@@ -221,7 +264,7 @@ function syls_popper(line) {
     count++;
   }
   let remainder = words.slice(count).join(" ");
-  //console.log('answer;+ ' + answer + ' remainder;+ ' + remainder);
+
   return [answer, remainder];
 }
 
@@ -230,14 +273,29 @@ function weave(line) {
 }
 
 function punctuate(speechArr) {
-  if (speechArr.length > 0 && speechArr[speechArr.length - 1].length > 3) {
-    var punkedLine =
-      speechArr[speechArr.length - 1].trim() +
-      [".", ",", ";", "-", " ", " ", "!", ","][Math.floor(Math.random() * 8)] +
-      " ";
-    return speechArr.slice(0, speechArr.length - 1).concat(punkedLine);
+  if (
+    speechArr.length > 0 &&
+    speechArr[speechArr.length - 1].length > 3 &&
+    speechArr[speechArr.length - 1]
+      .trim()
+      .charAt(speechArr[speechArr.length - 1].length - 1)
+      .toLowerCase() !==
+      speechArr[speechArr.length - 1]
+        .trim()
+        .charAt(speechArr[speechArr.length - 1].length - 1)
+        .toUpperCase()
+  ) {
+    var mark = [".", ",", ";", "-", "?", "..", "!", ","][
+      Math.floor(Math.random() * 8)
+    ];
+    var punkedLine = speechArr[speechArr.length - 1].trim() + mark + " ";
+
+    return [speechArr.slice(0, speechArr.length - 1).concat(punkedLine), mark];
   }
-  return speechArr;
+  return [speechArr, ""];
+}
+function jsUcfirst(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export default App;
