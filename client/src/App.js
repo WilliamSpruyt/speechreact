@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
+import reelL from "./reell.svg";
+import reelR from "./reelr.svg";
 import "./App.css";
 import SpeechToText from "speech-to-text";
 import "whatwg-fetch";
 var FontAwesome = require("react-fontawesome");
 
 const API_PORT = process.env.PORT | 3001;
-const url = "/message";
+const url = "http://localhost:3001/message";
 
 // Get a reference to the database service
 
@@ -131,7 +133,7 @@ class App extends Component {
         <header className="App-header">
           <div id="machine">
             <img
-              src={logo}
+              src={reelL}
               className={
                 this.state.spinning ? "App-logo App-logo-gogo" : "App-logo"
               }
@@ -162,7 +164,7 @@ class App extends Component {
               )}
             </button>{" "}
             <img
-              src={logo}
+              src={reelR}
               className={
                 this.state.spinning ? "App-logo App-logo-gogo" : "App-logo"
               }
