@@ -9,7 +9,7 @@ const API_PORT = process.env.PORT | 3001;
 const url = "/message";
 
 // Get a reference to the database service
-var database = firebase.database();
+
 class App extends Component {
   constructor(props) {
     super(props);
