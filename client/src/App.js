@@ -6,14 +6,7 @@ import "whatwg-fetch";
 var FontAwesome = require("react-fontawesome");
 
 const API_PORT = process.env.PORT | 3001;
-const url = "http://localhost:3001/message";
-var config = {
-  apiKey: "AIzaSyBffxTD6iT_yiIFYVo62YMbvaRNTP-_F_M",
-  authDomain: "krapp-s-last-app.firebaseapp.com",
-  databaseURL: "https://krapp-s-last-app.firebaseio.com",
-  storageBucket: "krapp-s-last-app.appspot.com"
-};
-firebase.initializeApp(config);
+const url = "/message";
 
 // Get a reference to the database service
 var database = firebase.database();
@@ -88,7 +81,7 @@ class App extends Component {
   loadStatsFromServer = () => {
     // fetch returns a promise. If you are not familiar with promises, see
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
-    fetch(config.databaseURL)
+    fetch(url)
       .then(data => data.json())
       .then(res => {
         if (!res.success) this.setState({ error: res.error });
@@ -114,7 +107,7 @@ class App extends Component {
     var date = new Date(Date.now()).toLocaleString("en", options);
 
     if (mono.length > 1) {
-      fetch(config.databaseURL, {
+      fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

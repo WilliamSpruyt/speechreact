@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client:start": "cd client && npm start",
-    "dev": "concurrently --kill-others \"npm start \" \"npm run client:start\""
+    "dev": "concurrently --kill-others \"npm start \" \"npm run client:start\"",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -30,5 +32,9 @@
   },
   "devDependencies": {
     "concurrently": "^3.5.1"
+  },
+  "engines": {
+    "node": "8.9.4",
+    "npm": "6.1.0"
   }
 }
