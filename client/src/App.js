@@ -8,6 +8,7 @@ import "whatwg-fetch";
 var FontAwesome = require("react-fontawesome");
 
 const API_PORT = process.env.PORT | 3001;
+//const url = "http://localhost:3001/message";
 const url = "/message";
 
 // Get a reference to the database service
@@ -21,7 +22,8 @@ class App extends Component {
       list: [],
       date: [],
       numLines: 0,
-      capsTime: false
+      capsTime: false,
+      comps: complimentaries()
     };
     this.loadStatsFromServer = this.loadStatsFromServer.bind(this);
 
@@ -130,8 +132,79 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <div id="machine">
+        <header
+          className="App-header"
+          style={{
+            backgroundColor:
+              "rgb(" +
+              this.state.comps.red[0] +
+              "," +
+              this.state.comps.blue[0] +
+              "," +
+              this.state.comps.green[0] +
+              ")"
+          }}
+        >
+          {" "}
+          <div
+            className="App-palimp"
+            style={{
+              color:
+                "rgb(" +
+                this.state.comps.red[2] +
+                "," +
+                this.state.comps.blue[2] +
+                "," +
+                this.state.comps.green[2] +
+                ")",
+              backgroundColor:
+                "rgb(" +
+                this.state.comps.red[1] +
+                "," +
+                this.state.comps.blue[1] +
+                "," +
+                this.state.comps.green[1] +
+                ")"
+            }}
+          >
+            {this.state.date}
+            {this.state.list.map((ele, i) => {
+              return (
+                <div key={i}>
+                  <div className="day"> {ele.date}</div>
+
+                  {ele.mono.map((lis, i) => {
+                    return (
+                      <div key={i} className="rant">
+                        {lis}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>{" "}
+          <div
+            id="machine"
+            style={{
+              borderColor:
+                "rgb(" +
+                this.state.comps.red[2] +
+                "," +
+                this.state.comps.blue[2] +
+                "," +
+                this.state.comps.green[2] +
+                ")",
+              backgroundColor:
+                "rgb(" +
+                this.state.comps.red[1] +
+                "," +
+                this.state.comps.blue[1] +
+                "," +
+                this.state.comps.green[1] +
+                ")"
+            }}
+          >
             <img
               src={reelL}
               className={
@@ -172,24 +245,6 @@ class App extends Component {
             />
           </div>
         </header>
-        <div className="App-palimp">
-          {this.state.date}
-          {this.state.list.map((ele, i) => {
-            return (
-              <div key={i}>
-                <div className="day"> {ele.date}</div>
-
-                {ele.mono.map((lis, i) => {
-                  return (
-                    <div key={i} className="rant">
-                      {lis}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
         <div className="App-title">
           {this.state.date}
           {this.state.message.map((ele, i) => {
@@ -210,7 +265,7 @@ function iambetize(pulp) {
       fragged[0]
         .trim()
         .charAt(0)
-        .toUpperCase() + (fragged[0] + " ").trim().slice(1)
+        .toUpperCase() + fragged[0].trim().slice(1)
     );
 
     line = fragged[1];
@@ -220,7 +275,7 @@ function iambetize(pulp) {
     line
       .trim()
       .charAt(0)
-      .toUpperCase() + (line + " ").trim().slice(1)
+      .toUpperCase() + line.trim().slice(1)
   );
   return message;
 }
@@ -291,6 +346,26 @@ function punctuate(speechArr) {
 }
 function jsUcfirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function complimentaries() {
+  var red1 = Math.floor(Math.random() * 256);
+  var red2 = Math.floor(Math.random() * 256);
+  var red3 = 256 - red1 - red2;
+  var blu1 = Math.floor(Math.random() * 256);
+  var blu2 = Math.floor(Math.random() * 256);
+  var blu3 = 256 - blu1 - blu2;
+  var gre1 = Math.floor(Math.random() * 256);
+  var gre2 = Math.floor(Math.random() * 256);
+  var gre3 = 256 - gre1 - gre2;
+  console.log(red1 + red2 + red3);
+  console.log(blu1 + blu2 + blu3);
+  console.log(gre1 + gre2 + gre3);
+  return {
+    red: [red1, red2, red3],
+    blue: [blu1, blu2, blu3],
+    green: [gre1, gre2, gre3]
+  };
 }
 
 export default App;
