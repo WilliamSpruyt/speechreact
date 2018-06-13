@@ -120,12 +120,12 @@ button:focus {
 
 #machine {
   background: tan;
-  width: fit-content;
   border-width: 10px;
   border-color: brown;
   border-radius: 20%;
   border-style: solid;
   float: left;
+  width: fit-content;
 }
 
 .mic {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+
 import reelL from "./reell.svg";
 import reelR from "./reelr.svg";
 import "./App.css";
@@ -27,14 +27,13 @@ class App extends Component {
     };
     this.loadStatsFromServer = this.loadStatsFromServer.bind(this);
 
-    const onAnythingSaid = text => console.log(`Interim text: ${text}`);
+    const onAnythingSaid = text => {};
     const onFinalised = text => {
       if (this.state.spinning) {
-        console.log(`Final text: ${text}`);
         var reply = this.state.capsTime ? jsUcfirst(text) : text;
-        console.log(reply);
+        var tempb;
         if (weave(this.state.message[this.state.message.length - 1])) {
-          var tempb = this.state.message
+          tempb = this.state.message
             .slice(0, this.state.message.length - 1)
             .concat(
               iambetize(
@@ -42,7 +41,7 @@ class App extends Component {
               )
             );
         } else {
-          var tempb = this.state.message.concat(iambetize(reply));
+          tempb = this.state.message.concat(iambetize(reply));
         }
         this.setState({ message: tempb }, () => {});
       }
@@ -55,7 +54,6 @@ class App extends Component {
         message: dottedMess,
         capsTime: mark === "!" || mark === "." || mark === "?" || mark === ".."
       });
-      console.log("stopped listening" + this.state.capsTime + mark);
 
       try {
         const listener = new SpeechToText(
@@ -175,7 +173,7 @@ class App extends Component {
 
                   {ele.mono.map((lis, i) => {
                     return (
-                      <div key={i} className="rant">
+                      <div key={i} className="rant" onClick={() => {}}>
                         {lis}
                       </div>
                     );
@@ -358,9 +356,7 @@ function complimentaries() {
   var gre1 = Math.floor(Math.random() * 256);
   var gre2 = Math.floor(Math.random() * 256);
   var gre3 = 256 - gre1 - gre2;
-  console.log(red1 + red2 + red3);
-  console.log(blu1 + blu2 + blu3);
-  console.log(gre1 + gre2 + gre3);
+
   return {
     red: [red1, red2, red3],
     blue: [blu1, blu2, blu3],
