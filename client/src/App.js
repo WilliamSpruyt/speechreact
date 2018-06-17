@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Modal, FormControl, Row, Grid, Col, Button } from "react-bootstrap";
 import reelL from "./reell.svg";
 import reelR from "./reelr.svg";
 import "./App.css";
@@ -8,8 +8,8 @@ import "whatwg-fetch";
 var FontAwesome = require("react-fontawesome");
 
 const API_PORT = process.env.PORT | 3001;
-//const url = "http://localhost:3001/message";
-const url = "/message";
+const url = "http://localhost:3001/message";
+//const url = "/message";
 
 // Get a reference to the database service
 
@@ -17,13 +17,16 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       message: [" "],
       spinning: false,
       list: [],
       date: [],
       numLines: 0,
       capsTime: false,
-      comps: complimentaries()
+      comps: complimentaries(),
+      zappershow: false,
+      item: "none selected"
     };
     this.loadStatsFromServer = this.loadStatsFromServer.bind(this);
 
@@ -127,6 +130,16 @@ class App extends Component {
         });
     }
   };
+  zap(id) {
+    return fetch(`${url}/${id}`, { method: "DELETE" })
+      .then(res => res.json())
+      .then(res => {
+        console.log("Deleted:", res.message);
+        return res;
+      })
+
+      .catch(err => console.error(err));
+  }
   render() {
     return (
       <div className="App">
@@ -143,7 +156,22 @@ class App extends Component {
               ")"
           }}
         >
-          {" "}
+          <Modal show={this.state.zappershow}>
+            <Button
+              onClick={i => {
+                this.zap(this.state.id);
+              }}
+            >
+              Delete{this.state.id}?
+            </Button>
+            <Button
+              onClick={() => {
+                this.setState({ zappershow: !this.state.zappershow });
+              }}
+            >
+              ..Or Not?
+            </Button>
+          </Modal>{" "}
           <div
             className="App-palimp"
             style={{
@@ -168,7 +196,15 @@ class App extends Component {
             {this.state.date}
             {this.state.list.map((ele, i) => {
               return (
-                <div key={i}>
+                <div
+                  key={i}
+                  onClick={() => {
+                    this.setState({
+                      zappershow: !this.state.zappershow,
+                      id: ele._id
+                    });
+                  }}
+                >
                   <div className="day"> {ele.date}</div>
 
                   {ele.mono.map((lis, i) => {

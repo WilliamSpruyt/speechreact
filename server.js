@@ -52,6 +52,18 @@ router.post("/message", (req, res) => {
     return res.json({ success: true });
   });
 });
+router.delete("/message/:id", function(req, res, next) {
+  console.log(req.params.id + "wow");
+  Mono.findByIdAndRemove(req.params.id, (err, todo) => {
+    if (err) {
+      return res.json({ success: false, message: "Some Error" });
+    }
+    return res.json({
+      success: true,
+      message: req.params.id + " deleted successfully"
+    });
+  });
+});
 app.use("/", router);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
