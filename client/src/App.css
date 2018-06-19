@@ -17,10 +17,8 @@
 }
 
 .App-header {
-  background-color: rgb(107, 8, 8);
-  height: 100px;
+  height: 200px;
   padding: 20px;
-  color: white;
   text-align: center;
 }
 
@@ -29,7 +27,6 @@
   justify-content: flex-start;
   text-align: left;
   margin-left: 10vw;
-  color: white;
   font-family: "Courier New", Courier;
 }
 
@@ -69,7 +66,7 @@
 }
 
 .rant:hover {
-  font-size: 2.0em;
+  font-size: 2em;
   color: red !important;
 }
 
@@ -78,7 +75,7 @@
 }
 
 .day:hover {
-  font-size: 2.0em;
+  font-size: 2em;
   color: orange !important;
 }
 
@@ -135,5 +132,24 @@ button:focus {
 }
 
 html {
-  background: black
+  background: black;
+}
+
+.custom-modal {
+  background: tan;
+  border-width: 10px;
+  border-color: brown;
+  border-radius: 20%;
+  border-style: solid;
+  width: fit-content;
+}
+
+FormControl {
+  height: fit-content;
+}
+
+.excerpt:hover {
+  background-color: yellow !important;
+
+  color: darkslategrey !important;
 }

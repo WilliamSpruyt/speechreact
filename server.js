@@ -38,10 +38,30 @@ router.get("/message", (req, res) => {
     return res.json({ success: true, data: comments });
   });
 });
+router.get("/message/:id", (req, res) => {
+  console.log(req.params.id + "wow");
+  Mono.find({ _id: req.params.id }).exec((err, mono) => {
+    if (err) {
+      return res.json({ success: false, message: "Some Error" });
+    }
+    if (mono.length) {
+      return res.json({
+        success: true,
+        message: "Message fetched by id successfully",
+        mono
+      });
+    } else {
+      return res.json({
+        success: false,
+        message: "Message with the given id not found"
+      });
+    }
+  });
+});
 
 router.post("/message", (req, res) => {
-  const stat = new Mono();
   // body parser lets us use the req.body
+  const stat = new Mono();
   const { mono, date } = req.body;
 
   stat.mono = mono;
@@ -52,8 +72,22 @@ router.post("/message", (req, res) => {
     return res.json({ success: true });
   });
 });
+
+router.put("/message/:id", (req, res) => {
+  Mono.findByIdAndUpdate(req.params.id, req.body, { new: true }, err => {
+    if (err) {
+      return res.json({
+        success: false,
+        message: "Some Error" + err,
+        error: err
+      });
+    }
+
+    return res.json({ success: true, message: "Updated successfully" });
+  });
+});
+
 router.delete("/message/:id", function(req, res, next) {
-  console.log(req.params.id + "wow");
   Mono.findByIdAndRemove(req.params.id, (err, todo) => {
     if (err) {
       return res.json({ success: false, message: "Some Error" });

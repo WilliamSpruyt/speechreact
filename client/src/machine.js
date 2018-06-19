@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, FormControl, Row, Grid, Col } from "react-bootstrap";
+
 import reelL from "./reell.svg";
 import reelR from "./reelr.svg";
 var FontAwesome = require("react-fontawesome");
@@ -38,11 +38,7 @@ export default class Machine extends Component {
           }
           alt="logo"
         />
-        <button
-          onClick={() => {
-            this.props.clickHandler();
-          }}
-        >
+        <button onClick={this.props.clickHandler}>
           {this.props.spinning ? (
             <div className="buttonstop">
               <FontAwesome name="microphone" className="mic" />

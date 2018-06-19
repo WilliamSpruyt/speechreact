@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Modal, FormControl, Row, Grid, Col, Button } from "react-bootstrap";
+import Machine from "./machine";
 import reelL from "./reell.svg";
 import reelR from "./reelr.svg";
 import "./App.css";
 import SpeechToText from "speech-to-text";
 import "whatwg-fetch";
+import EditBox from "./editBox";
 var FontAwesome = require("react-fontawesome");
 
 const API_PORT = process.env.PORT | 3001;
@@ -17,6 +18,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      excerptIndex: 0,
       id: "",
       message: [" "],
       spinning: false,
@@ -26,10 +28,16 @@ class App extends Component {
       capsTime: false,
       comps: complimentaries(),
       zappershow: false,
-      item: "none selected"
+      item: [{ date: "15.05.73", mono: ["out out brief candle"] }]
     };
     this.loadStatsFromServer = this.loadStatsFromServer.bind(this);
-
+    this.onDelete = this.onDelete.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
+    this.onPressPlay = this.onPressPlay.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.sendTheI = this.sendTheI.bind(this);
+    this.updateItem = this.updateItem.bind(this);
+    this.updateDB = this.updateDB.bind(this);
     const onAnythingSaid = text => {};
     const onFinalised = text => {
       if (this.state.spinning) {
@@ -125,20 +133,100 @@ class App extends Component {
           if (!res.success)
             this.setState({ error: res.error.message || res.error });
           else {
-            // this.props.getStats();
+            this.loadStatsFromServer();
           }
         });
     }
   };
+  updateDB() {
+    var id = this.state.id;
+    var date = this.state.item[0].date;
+    var mono = this.state.item[0].mono;
+    console.log(mono, date + " ooopy");
+    return fetch(`${url}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date,
+        mono
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(mono, date, "UPDATED:", res.message);
+        this.loadStatsFromServer();
+        return res;
+      })
+
+      .catch(err => console.error(err));
+  }
+  handleEditXi(event, xi) {
+    console.log(event.target.value);
+    this.setState({ excerptIndex: xi });
+  }
   zap(id) {
     return fetch(`${url}/${id}`, { method: "DELETE" })
       .then(res => res.json())
       .then(res => {
         console.log("Deleted:", res.message);
+        this.loadStatsFromServer();
         return res;
       })
 
       .catch(err => console.error(err));
+  }
+
+  getOne(id) {
+    return fetch(`${url}/${id}`, { method: "GET" })
+      .then(res => res.json())
+      .then(res => {
+        this.setState({ item: res.mono });
+        return res;
+      })
+
+      .catch(err => console.error(err));
+  }
+  onDelete() {
+    console.log("ouch!");
+    this.zap(this.state.id);
+    this.setState({ zappershow: !this.state.zappershow });
+  }
+  onDismiss() {
+    console.log("oi!");
+
+    this.setState({ zappershow: !this.state.zappershow });
+  }
+  onPressPlay() {
+    this.setState({ date: new Date().toString() });
+    var tempd = this.state.message.slice(0);
+    if (!this.state.spinning) {
+      this.setState({ message: tempd, numLines: tempd.length });
+    } else {
+      this.submitStat(tempd.length - this.state.numLines);
+    }
+    this.setState({ spinning: !this.state.spinning });
+  }
+  handleEdit(event) {
+    this.setState({
+      excerpt: event.target.value
+    });
+  }
+  sendTheI(i) {
+    this.setState({
+      excerpt: this.state.item[0].mono[i],
+      excerptIndex: i
+    });
+  }
+  updateItem(ind, excerpt) {
+    var newMono = this.state.item[0].mono.slice(0);
+
+    newMono.splice(ind, 1, excerpt);
+    console.log(newMono);
+    var newItem = [{ date: this.state.item[0].date, mono: newMono }];
+
+    this.setState({ item: newItem }, () => {
+      console.log(this.state.item[0].mono);
+    });
   }
   render() {
     return (
@@ -156,22 +244,21 @@ class App extends Component {
               ")"
           }}
         >
-          <Modal show={this.state.zappershow}>
-            <Button
-              onClick={i => {
-                this.zap(this.state.id);
-              }}
-            >
-              Delete{this.state.id}?
-            </Button>
-            <Button
-              onClick={() => {
-                this.setState({ zappershow: !this.state.zappershow });
-              }}
-            >
-              ..Or Not?
-            </Button>
-          </Modal>{" "}
+          <EditBox
+            zappershow={this.state.zappershow}
+            comps={this.state.comps}
+            date={this.state.item[0].date}
+            mono={this.state.item[0].mono}
+            deleteIt={this.onDelete}
+            dismissIt={this.onDismiss}
+            handleEdit={this.handleEdit}
+            sendTheI={this.sendTheI}
+            excerpt={this.state.excerpt}
+            updateItem={this.updateItem}
+            updateIt={this.updateDB}
+            xi={this.state.excerptIndex}
+            // excerpt={this.state.item[0].mono[this.state.excerptIndex]}
+          />
           <div
             className="App-palimp"
             style={{
@@ -199,6 +286,7 @@ class App extends Component {
                 <div
                   key={i}
                   onClick={() => {
+                    this.getOne(ele._id);
                     this.setState({
                       zappershow: !this.state.zappershow,
                       id: ele._id
@@ -218,68 +306,33 @@ class App extends Component {
               );
             })}
           </div>{" "}
-          <div
-            id="machine"
-            style={{
-              borderColor:
-                "rgb(" +
-                this.state.comps.red[2] +
-                "," +
-                this.state.comps.blue[2] +
-                "," +
-                this.state.comps.green[2] +
-                ")",
-              backgroundColor:
-                "rgb(" +
-                this.state.comps.red[1] +
-                "," +
-                this.state.comps.blue[1] +
-                "," +
-                this.state.comps.green[1] +
-                ")"
-            }}
-          >
-            <img
-              src={reelL}
-              className={
-                this.state.spinning ? "App-logo App-logo-gogo" : "App-logo"
-              }
-              alt="logo"
-            />
-            <button
-              onClick={() => {
-                this.setState({ date: new Date().toString() });
-                var tempd = this.state.message.slice(0);
-                if (!this.state.spinning) {
-                  this.setState({ message: tempd, numLines: tempd.length });
-                } else {
-                  this.submitStat(tempd.length - this.state.numLines);
-                }
-                this.setState({ spinning: !this.state.spinning });
-              }}
-            >
-              {this.state.spinning ? (
-                <div className="buttonstop">
-                  <FontAwesome name="microphone" className="mic" />
-                  <FontAwesome name="play" />
-                </div>
-              ) : (
-                <div className="buttonplay">
-                  <FontAwesome name="microphone" className="mic" />
-                  <FontAwesome name="play" />
-                </div>
-              )}
-            </button>{" "}
-            <img
-              src={reelR}
-              className={
-                this.state.spinning ? "App-logo App-logo-gogo" : "App-logo"
-              }
-              alt="logo"
-            />
-          </div>
+          <Machine
+            comps={this.state.comps}
+            clickHandler={this.onPressPlay}
+            spinning={this.state.spinning}
+          />
         </header>
-        <div className="App-title">
+        <div
+          className="App-title"
+          style={{
+            color:
+              "rgb(" +
+              this.state.comps.red[1] +
+              "," +
+              this.state.comps.blue[1] +
+              "," +
+              this.state.comps.green[1] +
+              ")",
+            backgroundColor:
+              "rgb(" +
+              this.state.comps.red[3] +
+              "," +
+              this.state.comps.blue[3] +
+              "," +
+              this.state.comps.green[3] +
+              ",255)"
+          }}
+        >
           {this.state.date}
           {this.state.message.map((ele, i) => {
             return <div key={i}>{ele}</div>;

@@ -28,7 +28,7 @@ addMessage = (req, res) => {
 };
 updateMessage = (req, res) => {
   Message.findOneAndUpdate(
-    { _id: req.body.id },
+    { _id: req.params.id },
     req.body,
     { new: true },
     (err, todo) => {
