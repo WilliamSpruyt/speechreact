@@ -35,6 +35,14 @@ export default class EditBox extends Component {
               this.props.comps.blue[2] +
               "," +
               this.props.comps.green[2] +
+              ")",
+            color:
+              "rgb(" +
+              this.props.comps.red[0] +
+              "," +
+              this.props.comps.blue[0] +
+              "," +
+              this.props.comps.green[0] +
               ")"
           }}
           className="paneldate"
@@ -47,11 +55,11 @@ export default class EditBox extends Component {
           style={{
             backgroundColor:
               "rgb(" +
-              this.props.comps.red[0] +
+              this.props.comps.red[1] +
               "," +
-              this.props.comps.blue[0] +
+              this.props.comps.blue[1] +
               "," +
-              this.props.comps.green[0] +
+              this.props.comps.green[1] +
               ")"
           }}
         >
@@ -83,21 +91,35 @@ export default class EditBox extends Component {
             ..Or Not?
           </Button>
         </div>
-        <Modal show={this.state.showme}>
-          <FormControl
-            onChange={this.props.handleEdit}
-            value={this.props.excerpt}
-          />{" "}
-          <Button
-            onClick={() => {
-              this.props.updateItem(this.props.xi, this.props.excerpt);
-              this.setState({
-                showme: !this.state.showme
-              });
-            }}
-          >
-            X
-          </Button>
+        <Modal show={this.state.showme} className="writebox">
+          <div id="inline">
+            <FormControl
+              className="one"
+              onChange={this.props.handleEdit}
+              value={this.props.excerpt}
+            />{" "}
+            <Button
+              style={{
+                backgroundColor:
+                  "rgb(" +
+                  this.props.comps.red[1] +
+                  "," +
+                  this.props.comps.blue[1] +
+                  "," +
+                  this.props.comps.green[1] +
+                  ")"
+              }}
+              className="two "
+              onClick={() => {
+                this.props.updateItem(this.props.xi, this.props.excerpt);
+                this.setState({
+                  showme: !this.state.showme
+                });
+              }}
+            >
+              Done
+            </Button>
+          </div>
         </Modal>
       </Modal>
     );
