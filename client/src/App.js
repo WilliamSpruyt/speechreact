@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import Machine from "./machine";
-import reelL from "./reell.svg";
-import reelR from "./reelr.svg";
+
 import "./App.css";
 import SpeechToText from "speech-to-text";
 import "whatwg-fetch";
 import EditBox from "./editBox";
-var FontAwesome = require("react-fontawesome");
 
-const API_PORT = process.env.PORT | 3001;
-//const url = "http://localhost:3001/message";
-const url = "/message";
+const url = "http://localhost:3001/message";
+//const url = "/message";
 
 // Get a reference to the database service
 
@@ -142,7 +139,7 @@ class App extends Component {
     var id = this.state.id;
     var date = this.state.item[0].date;
     var mono = this.state.item[0].mono;
-    console.log(mono, date + " ooopy");
+
     return fetch(`${url}/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -161,7 +158,6 @@ class App extends Component {
       .catch(err => console.error(err));
   }
   handleEditXi(event, xi) {
-    console.log(event.target.value);
     this.setState({ excerptIndex: xi });
   }
   zap(id) {
@@ -187,13 +183,10 @@ class App extends Component {
       .catch(err => console.error(err));
   }
   onDelete() {
-    console.log("ouch!");
     this.zap(this.state.id);
     this.setState({ zappershow: !this.state.zappershow });
   }
   onDismiss() {
-    console.log("oi!");
-
     this.setState({ zappershow: !this.state.zappershow });
   }
   onPressPlay() {
@@ -221,12 +214,10 @@ class App extends Component {
     var newMono = this.state.item[0].mono.slice(0);
 
     newMono.splice(ind, 1, excerpt);
-    console.log(newMono);
+
     var newItem = [{ date: this.state.item[0].date, mono: newMono }];
 
-    this.setState({ item: newItem }, () => {
-      console.log(this.state.item[0].mono);
-    });
+    this.setState({ item: newItem }, () => {});
   }
   render() {
     return (
@@ -325,12 +316,12 @@ class App extends Component {
               ")",
             backgroundColor:
               "rgb(" +
-              this.state.comps.red[3] +
+              this.state.comps.red[2] +
               "," +
-              this.state.comps.blue[3] +
+              this.state.comps.blue[2] +
               "," +
-              this.state.comps.green[3] +
-              ",255)"
+              this.state.comps.green[2] +
+              ")"
           }}
         >
           {this.state.date}

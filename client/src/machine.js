@@ -4,10 +4,6 @@ import reelL from "./reell.svg";
 import reelR from "./reelr.svg";
 var FontAwesome = require("react-fontawesome");
 export default class Machine extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div

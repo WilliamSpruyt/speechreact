@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, FormControl, Row, Grid, Col, Button } from "react-bootstrap";
+import { Modal, FormControl, Button } from "react-bootstrap";
 
 export default class EditBox extends Component {
   constructor(props) {
@@ -26,12 +26,38 @@ export default class EditBox extends Component {
             ")"
         }}
       >
-        <div>{this.props.date}</div>
+        <div
+          style={{
+            backgroundColor:
+              "rgb(" +
+              this.props.comps.red[2] +
+              "," +
+              this.props.comps.blue[2] +
+              "," +
+              this.props.comps.green[2] +
+              ")"
+          }}
+          className="paneldate"
+        >
+          {this.props.date}
+        </div>
 
-        <ul>
+        <div
+          className="panel"
+          style={{
+            backgroundColor:
+              "rgb(" +
+              this.props.comps.red[0] +
+              "," +
+              this.props.comps.blue[0] +
+              "," +
+              this.props.comps.green[0] +
+              ")"
+          }}
+        >
           {this.props.mono.map((ele, i) => {
             return (
-              <li
+              <div
                 className="excerpt"
                 key={i}
                 onClick={() => {
@@ -42,19 +68,21 @@ export default class EditBox extends Component {
                 }}
               >
                 {ele}
-              </li>
+              </div>
             );
           })}
-        </ul>
-        <Button className="buttonstop" onClick={this.props.deleteIt}>
-          Delete?
-        </Button>
-        <Button className="buttonplay" onClick={this.props.updateIt}>
-          Update?
-        </Button>
-        <Button className="buttonplay" onClick={this.props.dismissIt}>
-          ..Or Not?
-        </Button>
+        </div>
+        <div className="panelbuttons">
+          <Button className="buttonstop" onClick={this.props.deleteIt}>
+            Delete?
+          </Button>
+          <Button className="buttonplay" onClick={this.props.updateIt}>
+            Update?
+          </Button>
+          <Button className="buttonplay" onClick={this.props.dismissIt}>
+            ..Or Not?
+          </Button>
+        </div>
         <Modal show={this.state.showme}>
           <FormControl
             onChange={this.props.handleEdit}
