@@ -1,0 +1,65 @@
+{
+  "_from": "speech-to-text",
+  "_id": "speech-to-text@0.7.4",
+  "_inBundle": false,
+  "_integrity": "sha512-m0sZxDm2h/iIpwcuSu50twtf7O5C5dVtHUbHnd7c+GDS3N3SNm9tneHt2SZjSvEa5xLvDTphyIFCkRYeDii1Yw==",
+  "_location": "/speech-to-text",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "speech-to-text",
+    "name": "speech-to-text",
+    "escapedName": "speech-to-text",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/speech-to-text/-/speech-to-text-0.7.4.tgz",
+  "_shasum": "4f0d53f4ebdac2941dfd37d5b157c53e640af449",
+  "_spec": "speech-to-text",
+  "_where": "C:\\Users\\willi\\Desktop\\React_Projects\\speechreact",
+  "author": {
+    "name": "Andrew Golightly",
+    "email": "support@andrewgolighly.com",
+    "url": "http://www.golightlyplus.com"
+  },
+  "bugs": {
+    "url": "https://github.com/magician11/speech-to-text/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A speech to text module.",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^4.12.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1"
+  },
+  "homepage": "https://github.com/magician11/speech-to-text#readme",
+  "keywords": [
+    "speech",
+    "recognition",
+    "text"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "name": "speech-to-text",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magician11/speech-to-text.git"
+  },
+  "scripts": {
+    "build": "rm -rf lib && ./node_modules/.bin/babel --presets es2015 -d lib/ src/",
+    "prepublish": "npm run build",
+    "start": "node example/server.js"
+  },
+  "version": "0.7.4"
+}

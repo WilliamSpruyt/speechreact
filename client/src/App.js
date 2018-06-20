@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import Machine from "./machine";
 
 import "./App.css";
-import SpeechToText from "speech-to-text";
+import SpeechToText from "./speech-to-text";
 import "whatwg-fetch";
 import EditBox from "./editBox";
 
-//const url = "http://localhost:3001/message";
-const url = "/message";
+const url = "http://localhost:3001/message";
+//const url = "/message";
 
 // Get a reference to the database service
 
