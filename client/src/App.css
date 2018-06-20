@@ -28,6 +28,7 @@
   text-align: left;
   padding-left: 10vw;
   font-family: "Courier New", Courier;
+  height: 50vh;
 }
 
 .App-palimp {
@@ -37,8 +38,9 @@
   margin-right: 10vw;
   font-family: "Courier New", Courier;
   overflow-y: scroll;
-  height: 100px;
+  height: 100%;
   width: 20vw;
+  min-width: 190px;
   float: left;
   border-width: 10px;
 }
@@ -137,7 +139,8 @@ button:focus {
   border-radius: 20%;
   border-style: solid;
   float: left;
-  width: fit-content;
+  width: 266px;
+  height: 100px;
 }
 
 .mic {
@@ -147,7 +150,6 @@ button:focus {
 }
 
 html {
-  background: black;
 }
 
 .custom-modal {
@@ -170,7 +172,7 @@ FormControl {
 }
 
 body {
-  background: navy !important;
+  background-color: black;
 }
 
 .modal-dialog {
