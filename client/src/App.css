@@ -18,7 +18,7 @@
 
 .App-header {
   height: 50vh;
-  padding: 15vh;
+  padding: 5vh;
   text-align: center;
 }
 
@@ -141,6 +141,7 @@ button:focus {
   float: left;
   width: 266px;
   height: 100px;
+  margin: 5px;
 }
 
 .mic {
@@ -149,8 +150,7 @@ button:focus {
   border-color: silver;
 }
 
-html {
-}
+html {}
 
 .custom-modal {
   width: fit-content;
@@ -175,8 +175,7 @@ body {
   background-color: black;
 }
 
-.modal-dialog {
-}
+.modal-dialog {}
 
 .panel {
   margin-left: 15%;
@@ -184,8 +183,7 @@ body {
   padding: 3%;
 }
 
-.paneldate {
-}
+.paneldate {}
 
 .panelbuttons {
   float: right;
@@ -198,6 +196,7 @@ body {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%) !important;
+  background-color: rgba(0, 0, 0, 0.5)
 }
 
 #inline {
@@ -212,4 +211,13 @@ body {
 .two {
   width: 10%;
   margin: 0px;
+}
+
+#done {
+  width: fit-content;
+}
+
+#login {
+  background-image: url("reelr.svg");
+  background-color: #cccccc;
 }

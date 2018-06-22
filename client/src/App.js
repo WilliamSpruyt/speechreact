@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Machine from "./machine";
-
+import Login from "./login";
 import "./App.css";
 import SpeechToText from "./speech-to-text";
 import "whatwg-fetch";
 import EditBox from "./editBox";
-
+import { Modal, FormControl, Button } from "react-bootstrap";
 //const url = "http://localhost:3001/message";
 const url = "/message";
 
@@ -15,6 +15,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: "Guest",
+      loginshow: true,
       excerptIndex: 0,
       id: "",
       message: [" "],
@@ -35,6 +37,8 @@ class App extends Component {
     this.sendTheI = this.sendTheI.bind(this);
     this.updateItem = this.updateItem.bind(this);
     this.updateDB = this.updateDB.bind(this);
+    this.onLogin = this.onLogin.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     const onAnythingSaid = text => {};
     const onFinalised = text => {
       if (this.state.spinning) {
@@ -115,14 +119,16 @@ class App extends Component {
       minute: "2-digit"
     };
     var date = new Date(Date.now()).toLocaleString("en", options);
-
+    var user = this.state.user;
+    console.log(user);
     if (mono.length > 1) {
       fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           date,
-          mono
+          mono,
+          user
         })
       })
         .then(res => res.json())
@@ -219,9 +225,26 @@ class App extends Component {
 
     this.setState({ item: newItem }, () => {});
   }
+  onLogin() {
+    console.log("click");
+    this.setState({ loginshow: false });
+  }
+  handleLogin(event) {
+    this.setState({ user: event.target.value });
+  }
+  changeHandler1(event) {
+    console.log(event.target.name);
+    this.setState({ [event.target.name]: event.target.value });
+  }
   render() {
     return (
       <div className="App">
+        <Login
+          show={this.state.loginshow}
+          submit={this.onLogin}
+          name={this.state.user}
+          handleName={this.handleLogin}
+        />
         <header
           className="App-header"
           style={{
@@ -271,7 +294,6 @@ class App extends Component {
                 ")"
             }}
           >
-            {this.state.date}
             {this.state.list.map((ele, i) => {
               return (
                 <div
@@ -284,12 +306,20 @@ class App extends Component {
                     });
                   }}
                 >
-                  <div className="day"> {ele.date}</div>
+                  <div className="day">
+                    {" "}
+                    {ele.user === this.state.user || this.state.user === "Admin"
+                      ? ele.date
+                      : null}
+                  </div>
 
                   {ele.mono.map((lis, i) => {
                     return (
                       <div key={i} className="rant" onClick={() => {}}>
-                        {lis}
+                        {ele.user === this.state.user ||
+                        this.state.user === "Admin"
+                          ? lis
+                          : null}
                       </div>
                     );
                   })}
@@ -324,6 +354,16 @@ class App extends Component {
               ")"
           }}
         >
+          <h1 style={{ textAlign: "right" }}>
+            Logged in as {this.state.user}
+            <Button
+              onClick={() => {
+                this.setState({ loginshow: true });
+              }}
+            >
+              log out
+            </Button>
+          </h1>
           {this.state.date}
           {this.state.message.map((ele, i) => {
             return <div key={i}>{ele}</div>;

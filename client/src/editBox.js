@@ -99,6 +99,7 @@ export default class EditBox extends Component {
               value={this.props.excerpt}
             />{" "}
             <Button
+              id="done"
               style={{
                 backgroundColor:
                   "rgb(" +

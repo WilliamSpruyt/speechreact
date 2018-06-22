@@ -1,8 +1,8 @@
 // first we import our dependencies…
 const express = require("express");
 const path = require("path");
-require("dotenv").config();
-
+const dotenv = require("dotenv");
+dotenv.config();
 const Mono = require("./models/mono");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
@@ -16,9 +16,8 @@ var cors = require("cors");
 const API_PORT = process.env.PORT || 3001;
 // db config -- set your URI from mLab in secrets.js
 
-mongoose.connect(
-  "mongodb://Admin:fuckw1t@ds147190.mlab.com:47190/intereriormonolog"
-);
+mongoose.connect(process.env.DB_KEY);
+
 var db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -62,10 +61,11 @@ router.get("/message/:id", (req, res) => {
 router.post("/message", (req, res) => {
   // body parser lets us use the req.body
   const stat = new Mono();
-  const { mono, date } = req.body;
+  const { mono, date, user } = req.body;
 
   stat.mono = mono;
   stat.date = date;
+  stat.user = user;
 
   stat.save(err => {
     if (err) return res.json({ success: false, error: err });
