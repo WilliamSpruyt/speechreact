@@ -6,8 +6,8 @@ import SpeechToText from "./speech-to-text";
 import "whatwg-fetch";
 import EditBox from "./editBox";
 import { Modal, FormControl, Button } from "react-bootstrap";
-//const url = "http://localhost:3001/message";
-const url = "/message";
+const url = "http://localhost:3001/message";
+//const url = "/message";
 
 // Get a reference to the database service
 
