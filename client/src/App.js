@@ -7,8 +7,8 @@ import "whatwg-fetch";
 import EditBox from "./editBox";
 import { Modal, FormControl, Button } from "react-bootstrap";
 import { setInStorage, getFromStorage } from "./utils/storage";
-const url = "http://localhost:3001/message";
-//const url = "/message";
+//const url = "http://localhost:3001/message";
+const url = "/message";
 
 // Get a reference to the database service
 
