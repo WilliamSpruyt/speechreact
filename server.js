@@ -1,18 +1,19 @@
 // first we import our dependencies…
 var passport = require("passport");
 var expressSession = require("express-session");
-var auth = require("./routes/auth");
+
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
-var auth = require("./routes/auth");
+
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 // and create our instances
 const app = express();
 const router = require("./routes/message.routes");
+const loginRouter = require("./routes/sign.in");
 var cors = require("cors");
 
 // set our port to either a predetermined port number if you have set it up, or 3001
@@ -31,8 +32,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(cors());
-app.use("/api/auth", auth);
+
 app.use("/", router);
+app.use("/", loginRouter);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });

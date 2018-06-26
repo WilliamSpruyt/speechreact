@@ -6,6 +6,7 @@ import SpeechToText from "./speech-to-text";
 import "whatwg-fetch";
 import EditBox from "./editBox";
 import { Modal, FormControl, Button } from "react-bootstrap";
+import { setInStorage, getFromStorage } from "./utils/storage";
 const url = "http://localhost:3001/message";
 //const url = "/message";
 
@@ -39,6 +40,8 @@ class App extends Component {
     this.updateDB = this.updateDB.bind(this);
     this.onLogin = this.onLogin.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.getName = this.getName.bind(this);
+    //this.logout = this.logout.bind(this);
     const onAnythingSaid = text => {};
     const onFinalised = text => {
       if (this.state.spinning) {
@@ -225,9 +228,9 @@ class App extends Component {
 
     this.setState({ item: newItem }, () => {});
   }
-  onLogin() {
+  onLogin(name) {
     console.log("click");
-    this.setState({ loginshow: false });
+    this.setState({ loginshow: false, user: name });
   }
   handleLogin(event) {
     this.setState({ user: event.target.value });
@@ -236,13 +239,45 @@ class App extends Component {
     console.log(event.target.name);
     this.setState({ [event.target.name]: event.target.value });
   }
+  getName(name) {
+    this.setState({ user: name });
+  }
+  logout() {
+    this.setState({
+      isLoading: true,
+      loginshow: true
+    });
+    const obj = getFromStorage("the_main_app");
+    if (obj && obj.token) {
+      const { token } = obj;
+      // Verify token
+      fetch("/api/account/logout?token=" + token)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token: "",
+              isLoading: false
+            });
+          } else {
+            this.setState({
+              isLoading: false
+            });
+          }
+        });
+    } else {
+      this.setState({
+        isLoading: false
+      });
+    }
+  }
   render() {
     return (
       <div className="App">
         <Login
           show={this.state.loginshow}
           submit={this.onLogin}
-          name={this.state.user}
+          getName={this.getName}
           handleName={this.handleLogin}
         />
         <header
@@ -354,11 +389,11 @@ class App extends Component {
               ")"
           }}
         >
-          <h1 style={{ textAlign: "right" }}>
+          <h1 style={{ textAlign: "right", padding: "5%" }}>
             Logged in as {this.state.user}
             <Button
               onClick={() => {
-                this.setState({ loginshow: true });
+                this.logout();
               }}
             >
               log out
