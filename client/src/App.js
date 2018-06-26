@@ -41,6 +41,7 @@ class App extends Component {
     this.onLogin = this.onLogin.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.getName = this.getName.bind(this);
+    this.setShow = this.setShow.bind(this);
     //this.logout = this.logout.bind(this);
     const onAnythingSaid = text => {};
     const onFinalised = text => {
@@ -123,7 +124,7 @@ class App extends Component {
     };
     var date = new Date(Date.now()).toLocaleString("en", options);
     var user = this.state.user;
-    console.log(user);
+
     if (mono.length > 1) {
       fetch(url, {
         method: "POST",
@@ -229,7 +230,6 @@ class App extends Component {
     this.setState({ item: newItem }, () => {});
   }
   onLogin(name) {
-    console.log("click");
     this.setState({ loginshow: false, user: name });
   }
   handleLogin(event) {
@@ -242,16 +242,18 @@ class App extends Component {
   getName(name) {
     this.setState({ user: name });
   }
+  setShow(bool) {
+    this.setState({ loginshow: bool });
+  }
   logout() {
     this.setState({
-      isLoading: true,
-      loginshow: true
+      isLoading: true
     });
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;
       // Verify token
-      fetch("/api/account/logout?token=" + token)
+      fetch("http://localhost:3001" + "/account/logout?token=" + token)
         .then(res => res.json())
         .then(json => {
           if (json.success) {
@@ -279,6 +281,7 @@ class App extends Component {
           submit={this.onLogin}
           getName={this.getName}
           handleName={this.handleLogin}
+          setShow={this.setShow}
         />
         <header
           className="App-header"
@@ -393,12 +396,13 @@ class App extends Component {
             Logged in as {this.state.user}
             <Button
               onClick={() => {
+                this.setState({ loginshow: true });
                 this.logout();
               }}
             >
               log out
             </Button>
-          </h1>
+          </h1>{" "}
           {this.state.date}
           {this.state.message.map((ele, i) => {
             return <div key={i}>{ele}</div>;

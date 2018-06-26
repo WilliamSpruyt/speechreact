@@ -49,7 +49,7 @@ router.post("/accounts/users", (req, res, next) => {
 
       newUser.email = email;
       newUser.password = newUser.generateHash(password);
-      console.log("tits" + newUser.email, newUser.password);
+
       newUser.save(err => {
         if (err) {
           return res.send({
@@ -150,7 +150,7 @@ router.get("/account/logout", (req, res, next) => {
         console.log(err);
         return res.send({
           success: false,
-          message: "e Error: Server error"
+          message: "e Error: Server error" + err
         });
       }
       return res.send({

@@ -1,76 +1,9 @@
-/*import React, { Component } from "react";
-import { Modal, FormControl, Button } from "react-bootstrap";
-import axios from "axios";
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: "",
-      password: "",
-      message: ""
-    };
-  }
-  onChange = e => {
-    console.log(e.target.name);
-
-    this.setState({ [e.target.name]: e.target.value });
-  };
-  onSubmit = e => {
-    e.preventDefault();
-
-    const { username, password } = this.state;
-
-    axios
-      .post("/api/auth/login", { username, password })
-      .then(result => {
-        localStorage.setItem("jwtToken", result.data.token);
-        this.setState({ message: "" });
-        this.props.history.push("/");
-      })
-      .catch(error => {
-        if (error.response.status === 401) {
-          this.setState({
-            message: "Login failed. Username or password not match"
-          });
-        }
-      });
-  };
-  render() {
-    return (
-      <Modal show={this.props.show} id="login">
-        <FormControl
-          name="username"
-          className="one"
-          onChange={this.onChange}
-          value={this.state.username}
-        />{" "}
-        <FormControl
-          name="password"
-          className="one"
-          onChange={this.onChange}
-          value={this.state.password}
-        />{" "}
-        <Button
-          onClick={() => {
-            this.onSubmit;
-            this.props.submit(this.state.username);
-            this.props.handle;
-          }}
-        >
-          LOGIN
-        </Button>
-      </Modal>
-    );
-  }
-}
-
-*/
 import React, { Component } from "react";
 import "whatwg-fetch";
 import { Modal, FormControl, Button } from "react-bootstrap";
 import { setInStorage, getFromStorage } from "./utils/storage";
-const url = "http://localhost:3001";
-
+//const url = "http://localhost:3001";
+const url = "";
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -101,11 +34,11 @@ export default class Login extends Component {
     this.onSignIn = this.onSignIn.bind(this);
   }
   componentDidMount() {
-    /* const obj = getFromStorage("the_main_app");
+    const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;
       // Verify token
-      fetch("/api/account/verify?token=" + token)
+      fetch(url + "/account/verify?token=" + token)
         .then(res => res.json())
         .then(json => {
           if (json.success) {
@@ -119,11 +52,11 @@ export default class Login extends Component {
             });
           }
         });
-    } else {*/
-    this.setState({
-      isLoading: false
-    });
-    //}
+    } else {
+      this.setState({
+        isLoading: false
+      });
+    }
   }
   onTextboxChangeSignInEmail(event) {
     this.setState({
@@ -188,6 +121,7 @@ export default class Login extends Component {
     this.setState({
       isLoading: true
     });
+    this.props.setShow(false);
     this.props.getName(signInEmail);
     // Post request to backend
     fetch(url + "/account/signin", {
@@ -202,7 +136,6 @@ export default class Login extends Component {
     })
       .then(res => res.json())
       .then(json => {
-        console.log("json", json);
         if (json.success) {
           setInStorage("the_main_app", { token: json.token });
           this.setState({
@@ -238,52 +171,50 @@ export default class Login extends Component {
         </div>
       );
     }
-    if (!token) {
+    if (this.props.show) {
       return (
-        <div>
-          <Modal show={this.props.show} id="login">
-            <div>
-              {signInError ? <p>{signInError}</p> : null}
-              <p>Sign In</p>
-              <input
-                type="email"
-                placeholder="Email"
-                value={signInEmail}
-                onChange={this.onTextboxChangeSignInEmail}
-              />
-              <br />
-              <input
-                type="password"
-                placeholder="Password"
-                value={signInPassword}
-                onChange={this.onTextboxChangeSignInPassword}
-              />
-              <br />
-              <button onClick={this.onSignIn}>Sign In</button>
-            </div>
+        <Modal show={this.props.show} id="login" onHide={this.close}>
+          <div>
+            {signInError ? <p>{signInError}</p> : null}
+            <p>Sign In</p>
+            <input
+              type="email"
+              placeholder="Email"
+              value={signInEmail}
+              onChange={this.onTextboxChangeSignInEmail}
+            />
             <br />
+            <input
+              type="password"
+              placeholder="Password"
+              value={signInPassword}
+              onChange={this.onTextboxChangeSignInPassword}
+            />
             <br />
-            <div>
-              {signUpError ? <p>{signUpError}</p> : null}
-              <p>Sign Up</p>
-              <input
-                type="email"
-                placeholder="Email"
-                value={signUpEmail}
-                onChange={this.onTextboxChangeSignUpEmail}
-              />
-              <br />
-              <input
-                type="password"
-                placeholder="Password"
-                value={signUpPassword}
-                onChange={this.onTextboxChangeSignUpPassword}
-              />
-              <br />
-              <button onClick={this.onSignUp}>Sign Up</button>
-            </div>
-          </Modal>
-        </div>
+            <button onClick={this.onSignIn}>Sign In</button>
+          </div>
+          <br />
+          <br />
+          <div>
+            {signUpError ? <p>{signUpError}</p> : null}
+            <p>Sign Up</p>
+            <input
+              type="email"
+              placeholder="Email"
+              value={signUpEmail}
+              onChange={this.onTextboxChangeSignUpEmail}
+            />
+            <br />
+            <input
+              type="password"
+              placeholder="Password"
+              value={signUpPassword}
+              onChange={this.onTextboxChangeSignUpPassword}
+            />
+            <br />
+            <button onClick={this.onSignUp}>Sign Up</button>
+          </div>
+        </Modal>
       );
     }
     return (
