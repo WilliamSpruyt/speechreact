@@ -253,7 +253,8 @@ class App extends Component {
     if (obj && obj.token) {
       const { token } = obj;
       // Verify token
-      fetch("http://localhost:3001" + "/account/logout?token=" + token)
+      // fetch("http://localhost:3001" + "/account/logout?token=" + token)
+      fetch("/account/logout?token=" + token)
         .then(res => res.json())
         .then(json => {
           if (json.success) {
