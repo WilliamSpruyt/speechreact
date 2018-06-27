@@ -1,5 +1,3 @@
-"use strict";
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -77,8 +75,8 @@ var SpeechToText = (function() {
         // There is a weird bug on mobile, where everything is repeated twice.
         // There is no official solution so far so we have to handle an edge case. willy
         var mobileRepeatBug =
-          event.resultIndex == 1 &&
-          transcriptionPiece == event.results[0][0].transcript;
+          event.resultIndex === 1 &&
+          transcriptionPiece === event.results[0][0].transcript;
         if (event.results[i].isFinal && !mobileRepeatBug) {
           finalTranscript += transcriptionPiece;
           onFinalised(finalTranscript);

@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import reelL from "./reell.svg";
+import reelR from "./reelr.svg";
+import bernie from "./bernie.svg";
 import "whatwg-fetch";
 import { Modal, FormControl, Button } from "react-bootstrap";
 import { setInStorage, getFromStorage } from "./utils/storage";
@@ -9,7 +12,7 @@ export default class Login extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      token: "",
+
       signUpError: "",
       signInError: "",
       signInEmail: "",
@@ -121,7 +124,7 @@ export default class Login extends Component {
     this.setState({
       isLoading: true
     });
-    this.props.setShow(false);
+    if (this.state.signInEmail) this.props.setShow(false);
     this.props.getName(signInEmail);
     // Post request to backend
     fetch(url + "/account/signin", {
@@ -156,7 +159,7 @@ export default class Login extends Component {
   render() {
     const {
       isLoading,
-      token,
+
       signInError,
       signInEmail,
       signInPassword,
@@ -174,46 +177,138 @@ export default class Login extends Component {
     if (this.props.show) {
       return (
         <Modal show={this.props.show} id="login" onHide={this.close}>
+          <br />
+          <div className="wrapper">
+            <div className="centered">
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img src={reelR} className={" App-logo-gogo-small"} alt="logo" />
+              <img src={reelR} className={" App-logo-gogo-small"} alt="logo" />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />Krapp's Last App
+              <img src={reelL} className={" App-logo-gogo-small"} alt="logo" />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img src={reelR} className={" App-logo-gogo-small"} alt="logo" />
+              <img src={reelL} className={" App-logo-gogo-small"} alt="logo" />
+            </div>
+          </div>
+
+          <br />
           <div>
             {signInError ? <p>{signInError}</p> : null}
             <p>Sign In</p>
-            <input
+            <FormControl
               type="email"
               placeholder="Email"
               value={signInEmail}
               onChange={this.onTextboxChangeSignInEmail}
             />
             <br />
-            <input
+            <FormControl
               type="password"
               placeholder="Password"
               value={signInPassword}
               onChange={this.onTextboxChangeSignInPassword}
             />
             <br />
-            <button onClick={this.onSignIn}>Sign In</button>
+            <Button className="butz2" onClick={this.onSignIn}>
+              Sign In
+            </Button>
           </div>
           <br />
+          <div className="wrapper">
+            <div className="centered">
+              <img src={reelL} className={" App-logo-gogo-small"} alt="logo" />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img src={reelL} className={" App-logo-gogo-small"} alt="logo" />
+              <img
+                src={reelR}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img src={reelR} className={" App-logo-gogo-small"} alt="logo" />
+              <img src={reelR} className={" App-logo-gogo-small"} alt="logo" />
+            </div>
+          </div>
+
           <br />
           <div>
             {signUpError ? <p>{signUpError}</p> : null}
             <p>Sign Up</p>
-            <input
+            <FormControl
               type="email"
               placeholder="Email"
               value={signUpEmail}
               onChange={this.onTextboxChangeSignUpEmail}
             />
             <br />
-            <input
+            <FormControl
               type="password"
               placeholder="Password"
               value={signUpPassword}
               onChange={this.onTextboxChangeSignUpPassword}
             />
             <br />
-            <button onClick={this.onSignUp}>Sign Up</button>
+            <Button className="butz2" onClick={this.onSignUp}>
+              Sign Up
+            </Button>
           </div>
+          <br />
+          <div className="wrapper">
+            <div className="centered">
+              <img src={reelR} className={" App-logo-gogo-small"} alt="logo" />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img src={reelL} className={" App-logo-gogo-small"} alt="logo" />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img
+                src={reelL}
+                className={" App-logo-gogo-r-small"}
+                alt="logo"
+              />
+              <img src={reelR} className={" App-logo-gogo-small"} alt="logo" />
+              <img src={reelL} className={" App-logo-gogo-small"} alt="logo" />
+              <img src={bernie} className={" App-logo-gogo-small"} alt="logo" />
+            </div>
+          </div>
+
+          <br />
         </Modal>
       );
     }

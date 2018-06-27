@@ -5,8 +5,8 @@ import "./App.css";
 import SpeechToText from "./speech-to-text";
 import "whatwg-fetch";
 import EditBox from "./editBox";
-import { Modal, FormControl, Button } from "react-bootstrap";
-import { setInStorage, getFromStorage } from "./utils/storage";
+import { Button } from "react-bootstrap";
+import { getFromStorage } from "./utils/storage";
 //const url = "http://localhost:3001/message";
 const url = "/message";
 
@@ -253,7 +253,7 @@ class App extends Component {
     if (obj && obj.token) {
       const { token } = obj;
       // Verify token
-      // fetch("http://localhost:3001" + "/account/logout?token=" + token)
+      //fetch("http://localhost:3001/account/logout?token=" + token)
       fetch("/account/logout?token=" + token)
         .then(res => res.json())
         .then(json => {
@@ -393,7 +393,7 @@ class App extends Component {
               ")"
           }}
         >
-          <h1 style={{ textAlign: "right", padding: "5%" }}>
+          <h3 style={{ marginTop: "10vh", textAlign: "right", padding: "5%" }}>
             Logged in as {this.state.user}
             <Button
               onClick={() => {
@@ -403,7 +403,7 @@ class App extends Component {
             >
               log out
             </Button>
-          </h1>{" "}
+          </h3>{" "}
           {this.state.date}
           {this.state.message.map((ele, i) => {
             return <div key={i}>{ele}</div>;

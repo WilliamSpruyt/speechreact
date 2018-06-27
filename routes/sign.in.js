@@ -59,7 +59,7 @@ router.post("/accounts/users", (req, res, next) => {
         }
         return res.send({
           success: true,
-          message: "Signed up"
+          message: "Account created successfully!"
         });
       });
     }
@@ -121,7 +121,7 @@ router.post("/account/signin", (req, res, next) => {
         }
         return res.send({
           success: true,
-          message: "Valid sign in",
+          message: "Sign in",
           token: doc._id
         });
       });

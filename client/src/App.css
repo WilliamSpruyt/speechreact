@@ -11,9 +11,43 @@
   height: 80px;
 }
 
+.App-logo-gogo:hover {
+  animation: App-logo-spin infinite 2s linear;
+  height: 80px;
+}
+
 .App-logo-gogo-r {
   animation: App-logo-spin infinite 0.7s linear;
   height: 80px;
+}
+
+.App-logo-gogo-r:hover {
+  animation: App-logo-spin infinite 0.3s linear;
+  height: 80px;
+}
+.App-logo-small {
+  height: 25px;
+}
+
+.App-logo-gogo-small {
+  animation: App-logo-spin infinite 4s linear;
+  height: 25px;
+  padding: 3px;
+}
+
+.App-logo-gogo-small:hover {
+  animation: App-logo-spin infinite 0.7s linear;
+  height: 25px;
+}
+
+.App-logo-gogo-r-small {
+  animation: App-logo-spin infinite 2s linear;
+  height: 25px;
+}
+
+.App-logo-gogo-r-small:hover {
+  animation: App-logo-spin infinite 0.3s linear;
+  height: 25px;
 }
 
 .App-header {
@@ -38,7 +72,7 @@
   margin-right: 10vw;
   font-family: "Courier New", Courier;
   overflow-y: scroll;
-  height: 100%;
+  height: 25vh;
   width: 20vw;
   min-width: 190px;
   float: left;
@@ -163,6 +197,7 @@ html {
   top: 25%;
   left: 50%;
   transform: translate(-50%, -50%) !important;
+  font-family: "Courier New", Courier;
 }
 
 FormControl {
@@ -225,13 +260,13 @@ body {
 #login {
   background-image: url("reelr.svg");
   background-color: rgb(0, 170, 170);
+  font-family: "Courier New", Courier;
 }
 
 .butz {
   border-bottom-width: 10px;
   border-left-width: 10px;
   border-right-width: 10px;
-
   border-radius: 20%;
   border-style: solid;
   margin: 5px;
@@ -248,4 +283,21 @@ body {
   border-style: solid;
   margin: 5px;
   box-shadow: 0 10px 10px rgba(255, 200, 0, 0.5);
+}
+
+.wrapper {
+  text-align: center;
+}
+
+.centered {
+  display: inline-block;
+}
+.butz2 {
+  background-color: silver;
+  color: black;
+  border: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 25%;
 }
