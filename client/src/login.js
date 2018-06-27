@@ -151,7 +151,6 @@ export default class Login extends Component {
             },
             () => {
               if (this.state.token) {
-                console.log("bollox");
                 this.props.setShow(false);
               }
             }
