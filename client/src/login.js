@@ -124,7 +124,7 @@ export default class Login extends Component {
     this.setState({
       isLoading: true
     });
-    if (this.state.signInEmail) this.props.setShow(false);
+
     this.props.getName(signInEmail);
     // Post request to backend
     fetch(url + "/account/signin", {
@@ -141,13 +141,21 @@ export default class Login extends Component {
       .then(json => {
         if (json.success) {
           setInStorage("the_main_app", { token: json.token });
-          this.setState({
-            signInError: json.message,
-            isLoading: false,
-            signInPassword: "",
-            signInEmail: "",
-            token: json.token
-          });
+          this.setState(
+            {
+              signInError: json.message,
+              isLoading: false,
+              signInPassword: "",
+              signInEmail: "",
+              token: json.token
+            },
+            () => {
+              if (this.state.token) {
+                console.log("bollox");
+                this.props.setShow(false);
+              }
+            }
+          );
         } else {
           this.setState({
             signInError: json.message,
