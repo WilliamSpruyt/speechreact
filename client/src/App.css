@@ -301,3 +301,19 @@ body {
   cursor: pointer;
   border-radius: 25%;
 }
+
+.ErrorBoy{
+  position: absolute;
+  width: 50vw;
+  top:40%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  font-family: "Courier New", Courier;
+}
+.ErrorBoyText{
+  color: red;
+  font-size:50px; 
+  
+  
+  font-family: "Courier New", Courier;
+}

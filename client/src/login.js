@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import reelL from "./reell.svg";
 import reelR from "./reelr.svg";
 import bernie from "./bernie.svg";
+import Error from './error'
 import "whatwg-fetch";
+
 import { Modal, FormControl, Button } from "react-bootstrap";
 import { setInStorage, getFromStorage } from "./utils/storage";
-//const url = "http://localhost:3001";
-const url = "";
+const url = "http://localhost:3001";
+//const url = "";
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -222,7 +224,7 @@ export default class Login extends Component {
 
           <br />
           <div>
-            {signInError ? <p>{signInError}</p> : null}
+            {signInError ? <Error error={signInError}/> : null}
             <p>Sign In</p>
             <FormControl
               type="email"
@@ -269,7 +271,7 @@ export default class Login extends Component {
 
           <br />
           <div>
-            {signUpError ? <p>{signUpError}</p> : null}
+            {signUpError ? <Error error={signUpError}/>  : null}
             <p>Sign Up</p>
             <FormControl
               type="email"

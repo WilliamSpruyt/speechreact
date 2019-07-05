@@ -7,8 +7,8 @@ import "whatwg-fetch";
 import EditBox from "./editBox";
 import { Button } from "react-bootstrap";
 import { getFromStorage } from "./utils/storage";
-//const url = "http://localhost:3001/message";
-const url = "/message";
+const url = "http://localhost:3001/message";
+//const url = "/message";
 
 // Get a reference to the database service
 
@@ -94,7 +94,7 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    this.loadStatsFromServer();
+   this.loadStatsFromServer();
   }
   loadStatsFromServer = () => {
     // fetch returns a promise. If you are not familiar with promises, see
